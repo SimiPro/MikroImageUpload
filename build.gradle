@@ -52,4 +52,18 @@ dependencies {
 
     //Scala
     compile "org.scala-lang:scala-library:2.11.5"
+
+    //Image
+    compile "com.cloudinary:cloudinary-http42:1.2.1"
+    compile "com.cloudinary:cloudinary-taglib:1.2.1"
+
+    //Data
+    compile "org.hsqldb:hsqldb"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    //Marshalling
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.5.1"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.5.1"
+    compile "com.fasterxml.jackson.core:jackson-core:2.5.1"
+    compile "com.fasterxml.jackson.module:jackson-module-scala_2.11:2.5.1"
 }
