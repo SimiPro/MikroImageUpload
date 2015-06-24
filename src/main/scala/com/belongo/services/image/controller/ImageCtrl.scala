@@ -38,7 +38,7 @@ class ImageCtrl {
 
   @RequestMapping(value = Array("/upload"))
   @RequestBody
-  def cloudy (@RequestParam("file") file: MultipartFile) : PhotoUpload = {
+  def cloudy (@RequestParam("file") file: MultipartFile) : Any = {
     val photoUpload:PhotoUpload = new PhotoUpload
     photoUpload.setFile(file)
     PhotoUploadValidator.validate(photoUpload)
@@ -55,13 +55,16 @@ class ImageCtrl {
         case x1:Integer => photoUpload.setVersion(x1.longValue())
         case x2:Long => photoUpload.setVersion(x2)
       }
-    }
+
       val photo = new Photo()
       photo.setTitle(photoUpload.getTitle)
       photo.setUpload(photoUpload)
       photoRepo.save(photo)
 
-      photoUpload
+      return uploadResult
+    }
+    return "NOK"
+
   }
 
 }
