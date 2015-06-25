@@ -9,7 +9,11 @@ import org.springframework.web.multipart.MultipartFile
 class PhotoUpload extends StoredFile {
   var title:String = _
   var file:MultipartFile = _
+  var url: String = _
+
   def checkFile:Boolean = version != null && format != null && publicId != null
+
+  def setUrl(url:String) =  this.url = url
 
   def getUrl() : String = {
     if (checkFile) {

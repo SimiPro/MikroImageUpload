@@ -16,7 +16,10 @@ class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @BeanProperty
-    var id:Long = _
+    var id:String = _
+
+    @BeanProperty
+    var userId:String = _
 
     @BeanProperty
     var title:String = _
@@ -26,6 +29,11 @@ class Photo {
 
     @BeanProperty
     var createdAt = new Date
+
+    @BeanProperty
+    var url:String = _
+
+
 
 
     def getUpload():StoredFile = {

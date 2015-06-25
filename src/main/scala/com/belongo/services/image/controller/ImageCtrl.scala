@@ -7,6 +7,8 @@ import com.cloudinary.Singleton
 import com.cloudinary.utils.ObjectUtils
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.cloud.security.oauth2.resource.EnableOAuth2Resource
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.provider.OAuth2Authentication
 import org.springframework.ui.ModelMap
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.{ResponseBody, RestController}
@@ -40,17 +42,21 @@ class ImageCtrl {
   @RequestBody
   def cloudy (@RequestParam("file") file: MultipartFile) : Any = {
     val photoUpload:PhotoUpload = new PhotoUpload
-    photoUpload.setFile(file)
     PhotoUploadValidator.validate(photoUpload)
+    val user = SecurityContextHolder.getContext.getAuthentication
+    val auth = user.asInstanceOf[OAuth2Authentication].getUserAuthentication
+    val userprincipals = auth.getDetails.asInstanceOf[java.util.LinkedHashMap[_,_]].get("principal")
+    val userId =  userprincipals.asInstanceOf[java.util.LinkedHashMap[_,_]].get("id")
 
-
-    if (photoUpload.getFile != null && !photoUpload.getFile.isEmpty) {
+    if (!file.isEmpty) {
       val uploadResult = Singleton.getCloudinary.uploader().
-        upload(photoUpload.getFile.getBytes, ObjectUtils.asMap("resource_type", "auto"))
+        upload(file.getBytes, ObjectUtils.asMap("resource_type", "auto"))
       photoUpload.setPublicId(uploadResult.get("public_id").asInstanceOf[String])
       photoUpload.setSignature(uploadResult.get("signature").asInstanceOf[String])
       photoUpload.setFormat(uploadResult.get("format").asInstanceOf[String])
       photoUpload.setResourceType(uploadResult.get("resource_type").asInstanceOf[String])
+      photoUpload.setUrl(uploadResult.get("secure_url").asInstanceOf[String])
+
       uploadResult.get("version") match {
         case x1:Integer => photoUpload.setVersion(x1.longValue())
         case x2:Long => photoUpload.setVersion(x2)
@@ -59,11 +65,13 @@ class ImageCtrl {
       val photo = new Photo()
       photo.setTitle(photoUpload.getTitle)
       photo.setUpload(photoUpload)
+      photo.setUrl(photoUpload.getUrl())
+      photo.setUserId(userId.asInstanceOf[String])
       photoRepo.save(photo)
 
       return uploadResult
     }
-    return "NOK"
+    "NOK"
 
   }
 

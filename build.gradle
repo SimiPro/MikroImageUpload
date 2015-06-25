@@ -17,9 +17,6 @@ mainClassName = "com.belongo.services.image.main.Application"
 
 repositories {
     mavenCentral()
-    maven { url "http://repo.spring.io/snapshot" }
-    maven { url "http://repo.spring.io/milestone" }
-    maven { url "http://repo.spring.io/release" }
 }
 
 jar {
@@ -44,7 +41,7 @@ task stage(type:Copy, dependsOn: [clean,  build]) {
 stage.mustRunAfter(clean)
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web:1.2.1.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-web:1.2.4.RELEASE"
 
     //Oauth2
     compile "org.springframework.cloud:spring-cloud-starter-security:1.0.1.RELEASE"
@@ -58,8 +55,9 @@ dependencies {
     compile "com.cloudinary:cloudinary-taglib:1.2.1"
 
     //Data
-    compile "org.hsqldb:hsqldb"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "com.h2database:h2:1.4.187"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:1.2.4.RELEASE"
+
 
     //Marshalling
     compile "com.fasterxml.jackson.core:jackson-annotations:2.5.1"
