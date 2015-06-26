@@ -4,6 +4,7 @@ import java.util.Date
 import javax.persistence._
 
 import com.cloudinary.StoredFile
+import org.hibernate.annotations.GenericGenerator
 
 import scala.beans.BeanProperty
 
@@ -14,7 +15,8 @@ import scala.beans.BeanProperty
 class Photo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @BeanProperty
     var id:String = _
 
