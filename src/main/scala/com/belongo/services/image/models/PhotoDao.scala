@@ -20,6 +20,4 @@ class PhotoDao {
       case _ => list.map(P => P.url)
     }
   }
-
-
 }
