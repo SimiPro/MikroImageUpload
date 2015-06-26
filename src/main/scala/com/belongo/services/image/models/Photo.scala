@@ -36,6 +36,8 @@ class Photo {
 
 
 
+
+
     def getUpload():StoredFile = {
         val file = new StoredFile
         file.setPreloadedFile(image)

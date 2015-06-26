@@ -19,4 +19,6 @@ class ImageConfig {
   @Primary
   def scalaObjectMapper() = new ScalaObjectMapper
 
+
+
 }

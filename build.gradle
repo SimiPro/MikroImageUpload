@@ -55,8 +55,10 @@ dependencies {
     compile "com.cloudinary:cloudinary-taglib:1.2.1"
 
     //Data
-    compile "com.h2database:h2:1.4.187"
+
     compile "org.springframework.boot:spring-boot-starter-data-jpa:1.2.4.RELEASE"
+    compile "org.apache.commons:commons-dbcp2:2.1"
+    compile "org.postgresql:postgresql:9.4-1201-jdbc41"
 
 
     //Marshalling

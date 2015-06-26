@@ -1,7 +1,7 @@
 package com.belongo.services.image.controller
 
 
-import java.io.File
+import com.belongo.services.image.main.CurrentUserId
 import com.belongo.services.image.models.{PhotoRepository, Photo, PhotoUpload}
 import com.cloudinary.Singleton
 import com.cloudinary.utils.ObjectUtils
@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.cloud.security.oauth2.resource.EnableOAuth2Resource
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.provider.OAuth2Authentication
-import org.springframework.ui.ModelMap
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.{ResponseBody, RestController}
 import org.springframework.web.bind.annotation._
 import org.springframework.web.multipart.MultipartFile
-import collection.JavaConversions._
+
 
 
 
@@ -40,13 +38,9 @@ class ImageCtrl {
 
   @RequestMapping(value = Array("/upload"))
   @RequestBody
-  def cloudy (@RequestParam("file") file: MultipartFile) : Any = {
+  def cloudy (@RequestParam("file") file: MultipartFile, @CurrentUserId userId:String) : Any = {
     val photoUpload:PhotoUpload = new PhotoUpload
     PhotoUploadValidator.validate(photoUpload)
-    val user = SecurityContextHolder.getContext.getAuthentication
-    val auth = user.asInstanceOf[OAuth2Authentication].getUserAuthentication
-    val userprincipals = auth.getDetails.asInstanceOf[java.util.LinkedHashMap[_,_]].get("principal")
-    val userId =  userprincipals.asInstanceOf[java.util.LinkedHashMap[_,_]].get("id")
 
     if (!file.isEmpty) {
       val uploadResult = Singleton.getCloudinary.uploader().
