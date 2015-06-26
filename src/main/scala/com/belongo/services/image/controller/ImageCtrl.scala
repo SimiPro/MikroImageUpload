@@ -24,9 +24,6 @@ import org.springframework.web.multipart.MultipartFile
 @EnableOAuth2Resource
 class ImageCtrl {
 
-  @Value("${api_key}")
-  var api_key:String = _
-
   @Autowired
   var photoRepo:PhotoRepository = _
 
